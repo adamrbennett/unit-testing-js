@@ -1,144 +1,5 @@
 # JavaScript Unit Testing Libraries and Frameworks
 
-## [QUnit](https://qunitjs.com/)
-> Testing framework focused on DOM testing
-
-License: Proprietary (free to use/sell/modify)
-
-#### Pros
-1. Runs in Node.js or browser
-2. Can test static HTML
-3. Used by jQuery
-
-#### Cons
-1. Lacks fluent syntax
-2. Configuration is a headache, and must constantly be maintained
-3. Makes including 3rd party libraries (like assertion libraries) relatively difficult
-4. Asynchronous testing can be a bit of a headache
-5. No baked-in headless run support
-
-```html
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
-  <title>QUnit Example</title>
-  <link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-2.1.1.css">
-</head>
-<body>
-  <div id="qunit"></div>
-  <div id="qunit-fixture"></div>
-  <script src="https://code.jquery.com/qunit/qunit-2.1.1.js"></script>
-  <script src="tests.js"></script>
-</body>
-</html>
-```
-
-```javascript
-QUnit.test( "hello test", function( assert ) {
-  assert.ok( 1 == "1", "Passed!" );
-});
-```
-
----
-
-## [Karma](https://karma-runner.github.io)
-> Karma is essentially a tool which spawns a web server that executes source code against test code for each of the browsers connected. The results of each test against each browser are examined and displayed via the command line to the developer such that they can see which browsers and tests passed or failed.
-
-License: MIT
-
-#### Pros
-1. Test framework agnostic
-2. "Simple" integration with Jenkins, Travis or Semaphore
-3. Developed by AngularJS team
-4. Test against real browsers
-
-#### Cons
-1. TBD
-
----
-
-## [Protractor](http://www.protractortest.org)
-> Protractor is an end-to-end test framework for AngularJS applications. Protractor runs tests against your application running in a real browser, interacting with it as a user would.
-
-License: MIT
-
-#### Pros
-1. AngularJS specific
-2. Easy to learn if you know AngularJS
-3. Intuitive syntax, easy to read and understand (specially if you come from a Ruby background).
-4. More tutorials and practical example than Intern.
-
-#### Cons
-1. AngularJS specific?
-2. Not a good choice for non-AngularJS applications. If used for non-AngularJS applications there is no way of ensuring that elements are loaded dynamically so you will have to use setTimeout().
-
-```javascript
-// todo-spec.js
-describe('angularjs homepage todo list', function() {
-  it('should add a todo', function() {
-    browser.get('https://angularjs.org');
-
-    element(by.model('todoList.todoText')).sendKeys('write first protractor test');
-    element(by.css('[value="add"]')).click();
-
-    var todoList = element.all(by.repeater('todo in todoList.todos'));
-    expect(todoList.count()).toEqual(3);
-    expect(todoList.get(2).getText()).toEqual('write first protractor test');
-
-    // You wrote your first test, cross it off the list
-    todoList.get(2).element(by.css('input')).click();
-    var completedAmount = element.all(by.css('.done-true'));
-    expect(completedAmount.count()).toEqual(2);
-  });
-});
-```
-
----
-
-## [Intern](https://theintern.github.io/)
-> Intern is a complete test system for JavaScript designed to help you write and run consistent, high-quality test cases for your JavaScript libraries and applications. It can be used to test any JavaScript code. It can even be used to test non-JavaScript Web and mobile apps, and to run tests written for other test systems.
-
-License: New BSD
-
-#### Pros
-1. More generic than Protractor (Integration testing should not be coupled with the application framework).
-2. In Intern everything is a promise. This is the way intern handles asynchronicity. The method setFindTimeout() sets the default wait time for elements to be loaded. If the page will take longer to load than specified by setFindTimeout() then the test will fail.
-3. It can be integrated easily with BrowserStack if you need to do cross-browser checking. This is important if you need to test against a real browser instead of PhantomJS.
-4. Big name users (twitter, stripe, mozilla, ibm, etc)
-
-#### Cons
-1. Not very well documented (Documentation can be found here but it’s not very comprehensive. It does not have good descriptions of how to use it and there are no practical examples).
-2. Not easy to find solutions when you get stuck. There are not many blog posts about it and not enough stack overflow answers.
-3. Lacks very basic functionality like find element by text or conditional find (After looking at the documentation and searching online I came up with a solution that worked but it looked quite messy).
-4. Syntax is hard to read and the nesting becomes hard to follow (for example, it’s hard to find where to put .end() and where to resolve the promise with .then()).
-5. It can be hard to debug Intern tests running against an AngularJS application (e.g. to write in a text input you would expect that firstly you have to click the input to get the focus and then to type. Because of the working of AngularJS this is flaky. Instead of this you can use type()).
-
-```javascript
-define(function (require) {
-  var registerSuite = require('intern!object');
-  var assert = require('intern/chai!assert');
-
-  registerSuite({
-    'passing test': function () {
-      var result = 2 + 3;
-
-      assert.equal(result, 5,
-        'Addition operator should add numbers together');
-    },
-    'failing test': function () {
-      var result = 2 * 3;
-
-      assert.equal(result, 5,
-        'Addition operator should add numbers together');
-    }
-  });
-});
-```
-
----
-
 ## [Jasmine](https://jasmine.github.io/)
 > Jasmine is a Behavior Driven Development testing framework for JavaScript. It does not rely on browsers, DOM, or any JavaScript framework. Thus it's suited for websites, Node.js projects, or anywhere that JavaScript can run.
 
@@ -146,17 +7,18 @@ License: MIT
 
 #### Pros
 1. Simple setup for node through jasmine-node
-2. Headless running out of the box
-3. Nice fluent syntax for assertions built-in, and does play pretty well with other assertion libraries
-4. Supported by many CI servers (TeamCity, Codeship, etc.) and some that don’t support natively have plugins (jenkins has a maven plugin)
-5. Descriptive syntax for BDD paradigm
-6. Very popular
-7. Everything comes bundled
+1. Headless running out of the box
+1. Nice fluent syntax for assertions built-in, and does play pretty well with other assertion libraries
+1. Supported by many CI servers (TeamCity, Codeship, etc.) and some that don’t support natively have plugins (jenkins has a maven plugin)
+1. Descriptive syntax for BDD paradigm
+1. Very popular
+1. Everything comes bundled
 
 #### Cons
 1. Asynchronous testing can be a bit of a headache
-2. Expects a specific suffix to all test files (spec.js by default)
-3. Everything comes bundled
+1. Expects a specific suffix to all test files (spec.js by default)
+1. Everything comes bundled
+1. Sparse console output
 
 ```javascript
 describe("A suite is just a function", function() {
@@ -179,7 +41,7 @@ License: BSD
 
 #### Pros
 1. Modular and focused only on spying, stubbing and mocking.
-2. No dependencies, works with any unit testing framework.
+1. No dependencies, works with any unit testing framework.
 
 #### Cons
 1. Not a complete suite. Should be coupled with a test runner and assertion library.
@@ -216,18 +78,18 @@ it("returns the return value from the original function", function () {
 License: MIT
 
 #### Pros
-1. Very popular and active community. Over 100K dependent npm projects.
-2. Simple setup
-3. Headless running out of the box
-4. Allows use of any assertion library that will throw exceptions on failure, such as Chai
-5. Supported by some CI servers and plugins for others (jenkins has a maven plugin)
-6. Has aliases for functions to be more BDD-oriented or TDD-oriented
-7. Highly extensible
-8. Asynchronous testing is a breeze
+1. Very popular and active community. Over 3,000 dependent npm packages, 4.7M downloads last month.
+1. Simple setup
+1. Headless running out of the box
+1. Allows use of any assertion library that will throw exceptions on failure, such as Chai
+1. Supported by some CI servers and plugins for others (jenkins has a maven plugin)
+1. Has aliases for functions to be more BDD-oriented or TDD-oriented
+1. Highly extensible
+1. Asynchronous testing is a breeze
 
 #### Cons
 1. Newer to the field, so support might be lacking in certain areas
-2. Runs all tests in one process. Shared resources -- no isolation.
+1. Runs all tests in one process. Shared resources -- no isolation.
 
 ```javascript
 var assert = require('assert');
@@ -249,23 +111,27 @@ License: MIT
 
 #### Pros
 1. Minimal and fast
-2. Simple test syntax
-3. Runs tests concurrently
-4. Enforces writing atomic tests
-5. No implicit globals
-6. Isolated environment for each test file
-7. Write your tests in ES2017
-8. Promise support
-9. Generator function support
-10. Async function support
-11. Observable support
-12. Enhanced assertion messages
-13. TAP reporter
-14. Clean stack traces
-15. Automatic migration from other test runners
+1. Simple test syntax
+1. Runs tests concurrently (or serially, if necessary)
+1. Enforces writing atomic tests
+1. No implicit globals
+1. Isolated environment for each test file
+1. Write your tests in ES2017
+1. Promise support
+1. Generator function support
+1. Async function support
+1. Observable support
+1. Enhanced assertion messages
+1. TAP reporter
+1. Clean stack traces
+1. Automatic migration from other test runners
 
 #### Cons
-1. TBD
+1. Global space bugs could possibly be hard to debug, but there will be a (much) better chance they're discovered.
+1. Since tests run in child processes, debugging tests requires a workaround:
+`node --inspect node_modules/ava/profile.js some/test/file.js`
+1. Opinionated -- first test argument must be named "t"
+1. If you need to set up global state for each test (like spying on console.log for example), you'll need to make sure the tests are run serially
 
 ```javascript
 import test from 'ava';
@@ -289,10 +155,13 @@ test('bar', async t => {
 License: MIT
 
 #### Pros
-1. TBD
+1. Popular -- over 2,400 dependent npm packages, 3.2M downloads last month.
+1. Includes many assertions that you'd think should be part of core node assert module.
+1. Can use should and/or expect for BDD style assertions
 
 #### Cons
-1. TBD
+1. Verbose, e.g.: `expect(func).to.have.been.called.with(arg)`
+1. Spies can be made with `chai-spies` plugin, but no support for stubs
 
 ```javascript
 chai.should();

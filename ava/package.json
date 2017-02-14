@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "test": "ava"
+  },
+  "devDependencies": {
+    "ava": "^0.18.1",
+    "sinon": "^1.17.7",
+    "tap-nyan": "^1.1.0"
+  }
+}
